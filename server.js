@@ -1,4 +1,11 @@
 require('dotenv').config();
+
+// Vercel KV / Upstash Fallback
+if (process.env.UPSTASH_REDIS_REST_URL && !process.env.KV_REST_API_URL) {
+    process.env.KV_REST_API_URL = process.env.UPSTASH_REDIS_REST_URL;
+    process.env.KV_REST_API_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+}
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
