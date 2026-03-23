@@ -30,17 +30,19 @@
 
         <form id="auth-form" class="auth-form">
             <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="name" placeholder="Adınız" required autocomplete="off">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user-tag"></i>
-                <input type="text" id="surname" placeholder="Soyadınız" required autocomplete="off">
+                <i class="fas fa-user-circle"></i>
+                <input type="text" id="fullname" placeholder="Adınız Soyadınız" required autocomplete="off">
             </div>
             <div class="input-group">
                 <i class="fas fa-lock"></i>
                 <input type="password" id="password" placeholder="Şifreniz" required>
             </div>
+            
+            <div class="checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: var(--text-muted);">
+                <input type="checkbox" id="remember-me" checked style="width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer;">
+                <label for="remember-me" style="cursor: pointer;">Oturumumu açık tut (Beni Hatırla)</label>
+            </div>
+
             <button type="submit" class="primary-btn pulse-effect">
                 <span>Giriş Yap / Kayıt Ol</span>
                 <i class="fas fa-arrow-right"></i>
