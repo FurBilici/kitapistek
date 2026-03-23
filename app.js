@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:3000/api';
+let API_URL = '/api';
+if (window.location.protocol === 'file:' || window.location.hostname === 'localhost') {
+    API_URL = 'http://localhost:3000/api';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- State & Setup ---
