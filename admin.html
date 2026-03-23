@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PDF İstek - Admin Paneli</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Admin specific styles */
+        .admin-dashboard { max-width: 900px; width: 95%; height: 95vh; padding: 2rem; }
+        .dashboard-header { margin-bottom: 2rem; }
+        .requests-table { width: 100%; border-collapse: collapse; margin-top: 1rem; color: var(--text-main); }
+        .requests-table th, .requests-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--glass-border); }
+        .requests-table th { background: rgba(0,0,0,0.3); font-weight: 600; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+        .requests-table tr { transition: background 0.2s; }
+        .requests-table tr:hover { background: rgba(255,255,255,0.05); }
+        .action-btn { background: transparent; border: 1px solid var(--glass-border); padding: 0.4rem 0.8rem; border-radius: 8px; color: var(--text-main); cursor: pointer; transition: all 0.2s; font-size: 0.85rem; margin-right: 0.5rem; }
+        .btn-approve { background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); color: var(--success); }
+        .btn-approve:hover { background: rgba(16, 185, 129, 0.4); }
+        .btn-reject { background: rgba(244, 63, 94, 0.2); border-color: rgba(244, 63, 94, 0.5); color: #f43f5e; }
+        .btn-reject:hover { background: rgba(244, 63, 94, 0.4); }
+        .btn-pending { background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.5); color: var(--warning); }
+        .btn-pending:hover { background: rgba(245, 158, 11, 0.4); }
+        
+        .status-badge { padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .status-badge.onaylandi { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); }
+        .status-badge.reddedildi { background: rgba(244, 63, 94, 0.2); border: 1px solid rgba(244, 63, 94, 0.3); color: #f43f5e; }
+        .status-badge.beklemede { background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--warning); }
+    </style>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="background:#f43f5e"></div>
+        <div class="blob blob-3" style="background:#8b5cf6"></div>
+    </div>
+    
+    <div id="toast" class="toast hidden">Senin mesajın burada görünecek</div>
+
+    <!-- Admin Login -->
+    <div class="glass-container" id="admin-login-view">
+        <div class="logo-area">
+            <div class="logo-icon" style="background: linear-gradient(135deg, #f43f5e, #8b5cf6);">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>Admin Yönetim Paneli</h2>
+            <p>Sisteme yönetici şifre ile giriş yapın.</p>
+        </div>
+
+        <form id="admin-login-form" class="auth-form">
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="admin-password" placeholder="Yönetici Şifreniz" required>
+            </div>
+            <button type="submit" class="primary-btn pulse-effect" style="background: linear-gradient(135deg, #f43f5e, #8b5cf6);">
+                <span>Yönetici Girişi</span>
+                <i class="fas fa-sign-in-alt"></i>
+            </button>
+            <p class="auth-hint">Test için şifre: admin123</p>
+        </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="glass-container admin-dashboard hidden" id="admin-dashboard-view">
+        <header class="glass-header dashboard-header">
+            <div class="user-info">
+                <div class="avatar" style="background:#f43f5e"><i class="fas fa-user-shield"></i></div>
+                <div class="user-details">
+                    <span class="greeting">Hoş Geldiniz,</span>
+                    <span class="name">Yönetici (Hoca)</span>
+                </div>
+            </div>
+            <button id="admin-logout-btn" class="icon-btn" title="Çıkış Yap">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </header>
+
+        <div class="glass-card" style="overflow-x: auto;">
+            <div class="list-header">
+                <h3><i class="fas fa-inbox"></i> Tüm Öğrenci İstekleri</h3>
+                <p>Gelen kitap taleplerini yönetebilir ve durumlarını değiştirebilirsiniz.</p>
+            </div>
+
+            <table class="requests-table">
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Öğrenci Adı</th>
+                        <th>Kitap / Yazar</th>
+                        <th>İletişim Email</th>
+                        <th>Durum</th>
+                        <th>İşlemler (Aksiyon)</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-requests-list">
+                    <!-- Data injected via JS -->
+                </tbody>
+            </table>
+            
+            <div id="admin-empty-state" class="empty-state hidden">
+                <i class="far fa-folder-open"></i>
+                <p>Henüz sisteme düşen hiçbir kitap isteği yok.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

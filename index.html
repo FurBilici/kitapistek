@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PDF İstek - Öğrenci Kütüphanesi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">Senin mesajın burada görünecek</div>
+
+    <!-- Login/Register View -->
+    <div class="glass-container" id="auth-view">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-book-reader"></i>
+            </div>
+            <h2>PDF İstek Sistemi</h2>
+            <p>Hocanızdan kitap isteğinde bulunun</p>
+        </div>
+
+        <form id="auth-form" class="auth-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" placeholder="Adınız" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user-tag"></i>
+                <input type="text" id="surname" placeholder="Soyadınız" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Şifreniz" required>
+            </div>
+            <button type="submit" class="primary-btn pulse-effect">
+                <span>Giriş Yap / Kayıt Ol</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <p class="auth-hint">İlk defa giriyorsanız hesabınız otomatik oluşturulur.</p>
+        </form>
+    </div>
+
+    <!-- Main Application View -->
+    <div class="app-container hidden" id="main-view">
+        <header class="glass-header">
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="greeting">Hoş Geldin,</span>
+                    <span id="welcome-text" class="name">Öğrenci</span>
+                </div>
+            </div>
+            <button id="logout-btn" class="icon-btn" title="Çıkış Yap">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </header>
+
+        <nav class="glass-nav">
+            <button class="nav-btn active" data-target="request-form-view">
+                <i class="fas fa-plus-circle"></i> Yeni İstek
+            </button>
+            <button class="nav-btn" data-target="my-requests-view">
+                <i class="fas fa-list-ul"></i> İstek Takibi
+            </button>
+        </nav>
+
+        <main class="content-area">
+            <!-- Request Form View -->
+            <div id="request-form-view" class="view-section active animate-fade-in">
+                <form id="book-request-form" class="glass-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-book-medical"></i> Kitap İsteğinde Bulun</h3>
+                        <p>İstediğiniz kitabın detaylarını aşağıya girin.</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-book"></i>
+                        <input type="text" id="book-name" placeholder="Kitabın Adı" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-pen-fancy"></i>
+                        <input type="text" id="book-author" placeholder="Kitabın Yazarı" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="contact-email" placeholder="İletişim İçin Mail Adresiniz" required>
+                    </div>
+                    
+                    <button type="submit" class="primary-btn">
+                        <i class="fas fa-paper-plane"></i> İsteği Gönder
+                    </button>
+                </form>
+            </div>
+
+            <!-- My Requests View -->
+            <div id="my-requests-view" class="view-section hidden">
+                <div class="list-header">
+                    <h3><i class="fas fa-tasks"></i> Geçmiş İsteklerim</h3>
+                    <p>Gönderdiğiniz isteklerin güncel durumu.</p>
+                </div>
+                
+                <div class="empty-state hidden" id="empty-state">
+                    <i class="far fa-folder-open"></i>
+                    <p>Henüz hiç kitap isteğinde bulunmadınız.</p>
+                </div>
+
+                <div id="requests-list" class="requests-list">
+                    <!-- Cards will be injected by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
